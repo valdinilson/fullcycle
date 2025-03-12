@@ -1,0 +1,52 @@
+services:
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx:challenge
+    container_name: nginx_proxy
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - app
+
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    image: node:challenge
+    container_name: node_challenge
+    tty: true
+    entrypoint: sh -c "npm install && npm start"
+    volumes:
+      - ./app:/usr/src/app
+    depends_on:
+      db:
+        condition: service_healthy
+  
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    image: mysql:challenge
+    container_name: mysql_challenge
+    tty: true
+    environment:
+      - MYSQL_DATABASE=challengedb
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/scripts:/docker-entrypoint-initdb.d
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db_data:

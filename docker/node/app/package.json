@@ -1,0 +1,35 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "Challenge 2: Docker - Node with Nginx",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "nodemon --exec ts-node ./index.ts",
+    "dev": "nodemon --watch './' --exec 'ts-node ./index.ts' -e ts"
+  },
+  "keywords": [
+    "Node.js",
+    "TypeScript",
+    "MySQL",
+    "Docker",
+    "Containers",
+    "Full Cycle",
+    "Challenge"
+  ],
+  "author": "Valdinilson Lourenço da Cunha",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mysql2": "^3.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@types/express": "^5.0.0",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  }
+}
